@@ -16,7 +16,7 @@ Resources:
   ServiceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: ServiceSecurityGroup
+      GroupName: !Sub ${ServiceName}-ServiceSecurityGroup
       GroupDescription: Security group for service
       SecurityGroupIngress:
         - IpProtocol: tcp
