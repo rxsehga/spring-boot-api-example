@@ -29,13 +29,13 @@ pipeline {
                 sh './gradlew dockerPush -PdockerHubUsername=$DOCKER_HUB_LOGIN_USR'
             }
         }
-        stage('Deploy to AWS') {
+        stage('Deploy to AWSNew') {
             environment {
                 DOCKER_HUB_LOGIN = credentials('docker-hub')
             }
             steps {
                 withAWS(credentials: 'aws-credentials', region: env.REGION) {
-                    sh './gradlew  awsCfnMigrateStack awsCfnWaitStackComplete -PsubnetId=$SUBNET_ID -PdockerHubUsername=$DOCKER_HUB_LOGIN_USR -Pregion=$REGION --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND'
+                    sh './gradlew --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND  awsCfnMigrateStack awsCfnWaitStackComplete -PsubnetId=$SUBNET_ID -PdockerHubUsername=$DOCKER_HUB_LOGIN_USR -Pregion=$REGION'
                 }
             }
         }
