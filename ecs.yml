@@ -25,7 +25,6 @@ Resources:
           CidrIp: 0.0.0.0/0
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
-    DependsOn: LogGroup
     Properties:
       Family: !Sub ${ServiceName}-task
       Cpu: 256
