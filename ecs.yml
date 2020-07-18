@@ -59,3 +59,8 @@ Resources:
             - !Ref SubnetID
           SecurityGroups:
             - !GetAtt ServiceSecurityGroup.GroupId
+
+    LogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: !Join ['', [/ecs/, !Ref ServiceName, TaskDefinition]]
