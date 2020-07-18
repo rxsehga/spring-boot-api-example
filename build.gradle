@@ -61,7 +61,7 @@ cloudFormation {
     useCapabilityIam 'CAPABILITY_NAMED_IAM'
     stackParams([
             SubnetID: findProperty('subnetId') ?: '',
-            ServiceName: project.name,
+            ServiceName: "$project.name-fargate-service",
             ServiceVersion: project.version,
             DockerHubUsername: dockerHubUsernameProperty
     ])
