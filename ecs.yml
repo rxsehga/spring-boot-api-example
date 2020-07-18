@@ -13,10 +13,6 @@ Resources:
     Type: AWS::ECS::Cluster
     Properties:
       ClusterName: deployment-example-cluster
-  LogGroup:
-    Type: AWS::Logs::LogGroup
-    Properties:
-      LogGroupName: !Join ['', [/ecs/, !Ref ServiceName, TaskDefinition]]
   ServiceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -44,8 +40,8 @@ Resources:
         LogDriver: awslogs
         Options:
           awslogs-region: !Ref AWS::Region
-          awslogs-group: !Ref LogGroup
-          awslogs-stream-prefix: ecs
+          awslogs-group: awslogs
+          awslogs-stream-prefix: ${ServiceName}-task
       RequiresCompatibilities:
         - EC2
         - FARGATE
