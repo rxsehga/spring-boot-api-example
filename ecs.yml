@@ -25,6 +25,7 @@ Resources:
           CidrIp: 0.0.0.0/0
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
+    DependsOn: LogGroup
     Properties:
       Family: !Sub ${ServiceName}-task
       Cpu: 256
@@ -39,7 +40,7 @@ Resources:
             LogDriver: awslogs
             Options:
               awslogs-region: !Ref AWS::Region
-              awslogs-group: !Join ['-', [/ecs/, !Ref ServiceName, task]]
+              awslogs-group: !Ref LogGroup
               awslogs-stream-prefix: ecs
       RequiresCompatibilities:
         - FARGATE
@@ -91,3 +92,7 @@ Resources:
           SecurityGroups:
             - !GetAtt ServiceSecurityGroup.GroupId
 
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['-', [/ecs/, !Ref ServiceName, TaskDefinition]]
