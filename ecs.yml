@@ -42,27 +42,6 @@ Resources:
               awslogs-region: !Ref AWS::Region
               awslogs-group: !Ref LogGroup
               awslogs-stream-prefix: ecs
-  DBEC2SecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Open database for access
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: '3306'
-          ToPort: '3306'
-          SourceSecurityGroupName:ServiceSecurityGroup
-  MyDB:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      DBSecurityGroups:
-        - Ref: DBEC2SecurityGroup
-      AllocatedStorage: '5'
-      DBInstanceClass: db.t2.small
-      Engine: MySQL
-      MasterUsername: MyName
-      MasterUserPassword: MyPassword
-    DeletionPolicy: Snapshot
-
       RequiresCompatibilities:
         - FARGATE
       ExecutionRoleArn: !Ref ExecutionRole
@@ -117,3 +96,21 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Join ['-', [/ecs/, !Ref ServiceName, TaskDefinition]]
+  DBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      DBSecurityGroupIngress:
+        EC2SecurityGroupName:
+          Ref: ServiceSecurityGroup
+      GroupDescription: Frontend Access
+  DBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBSecurityGroups:
+        - Ref: DBSecurityGroup
+      AllocatedStorage: '5'
+      DBInstanceClass: db.t2.small
+      Engine: MySQL
+      MasterUsername: MyName
+      MasterUserPassword: MyPassword
+    DeletionPolicy: Snapshot
