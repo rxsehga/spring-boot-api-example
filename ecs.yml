@@ -35,6 +35,12 @@ Resources:
           Image: !Sub ${DockerHubUsername}/${ServiceName}:${ServiceVersion}
           PortMappings:
             - ContainerPort: 8080
+      LogConfiguration:
+        LogDriver: awslogs
+        Options:
+          awslogs-region: !Ref AWS::Region
+          awslogs-group: !Ref LogGroup
+          awslogs-stream-prefix: ecs
       RequiresCompatibilities:
         - EC2
         - FARGATE
