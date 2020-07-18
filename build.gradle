@@ -56,7 +56,7 @@ aws {
 }
 
 cloudFormation {
-    stackName "$project.name-stack"
+    stackName "$project.name-fargate"
     stackParams([
             SubnetID: findProperty('subnetId') ?: '',
             ServiceName: project.name,
