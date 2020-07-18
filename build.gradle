@@ -57,6 +57,8 @@ aws {
 
 cloudFormation {
     stackName "$project.name-fargate"
+    capabilityIam true
+    useCapabilityIam true
     stackParams([
             SubnetID: findProperty('subnetId') ?: '',
             ServiceName: project.name,
