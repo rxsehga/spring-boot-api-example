@@ -13,6 +13,10 @@ Resources:
     Type: AWS::ECS::Cluster
     Properties:
       ClusterName: deployment-example-cluster
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['', [/ecs/, !Ref ServiceName, TaskDefinition]]
   ServiceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -61,7 +65,3 @@ Resources:
           SecurityGroups:
             - !GetAtt ServiceSecurityGroup.GroupId
 
-    LogGroup:
-      Type: AWS::Logs::LogGroup
-      Properties:
-        LogGroupName: !Join ['', [/ecs/, !Ref ServiceName, TaskDefinition]]
