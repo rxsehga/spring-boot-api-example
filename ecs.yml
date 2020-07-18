@@ -42,11 +42,10 @@ Resources:
               awslogs-group: awslogs
               awslogs-stream-prefix: ${ServiceName}-task
       RequiresCompatibilities:
-        - EC2
         - FARGATE
-        - ExecutionRoleArn: !Ref ExecutionRole
+      ExecutionRoleArn: !Ref ExecutionRole
           # "The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that grants containers in the task permission to call AWS APIs on your behalf."
-        - TaskRoleArn: !Ref TaskRole
+      TaskRoleArn: !Ref TaskRole
   # A role needed by ECS
   ExecutionRole:
     Type: AWS::IAM::Role
@@ -75,19 +74,7 @@ Resources:
           #   -
           # Policies:
           #   -
-      # A role needed for auto scaling
-  AutoScalingRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: !Join ['', [!Ref ServiceName, AutoScalingRole]]
-      AssumeRolePolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: ecs-tasks.amazonaws.com
-            Action: 'sts:AssumeRole'
-      ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole'
+
   Service:
     Type: AWS::ECS::Service
     Properties:
