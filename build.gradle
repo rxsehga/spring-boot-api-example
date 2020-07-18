@@ -56,7 +56,7 @@ aws {
 }
 
 cloudFormation {
-    stackName "$project.name-fargate"
+    stackName "$project.name-fargate-test"
     capabilityIam true
     useCapabilityIam 'CAPABILITY_NAMED_IAM'
     stackParams([
